@@ -2,7 +2,7 @@ services:
 
   llm:
     container_name: llm-inference-server
-    image: llm-inference-server:latest
+    image: harbor-sha.liuqi.me/library/rag/llm-inference-server:v0.2.0-1
     build:
       context: ../.././RetrievalAugmentedGeneration/llm-inference-server/
       dockerfile: Dockerfile
@@ -34,7 +34,7 @@ services:
 
   jupyter-server:
     container_name: notebook-server
-    image: notebook-server:latest
+    image: harbor-sha.liuqi.me/library/rag/notebook-server:v0.2.0-1
     build:
       context: ../../
       dockerfile: ./notebooks/Dockerfile.notebooks
@@ -54,7 +54,7 @@ services:
 
   evaluation:
     container_name: evaluation
-    image: evalulation:latest
+    image: harbor-sha.liuqi.me/library/rag/evalulation:v0.2.0-1
     build:
       context: ../../
       dockerfile: ./evaluation/Dockerfile.eval
@@ -74,7 +74,7 @@ services:
 
   etcd:
     container_name: milvus-etcd
-    image: quay.io/coreos/etcd:v3.5.5
+    image: harbor-sha.liuqi.me/library/quay.io/coreos/etcd:v3.5.5
     environment:
       - ETCD_AUTO_COMPACTION_MODE=revision
       - ETCD_AUTO_COMPACTION_RETENTION=1000
@@ -91,7 +91,7 @@ services:
 
   minio:
     container_name: milvus-minio
-    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    image: harbor-sha.liuqi.me/library/dockerhub/minio/minio:RELEASE.2023-03-20T20-16-18Z
     environment:
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
@@ -109,7 +109,7 @@ services:
 
   milvus:
     container_name: milvus-standalone
-    image: milvusdb/milvus:v2.3.1-gpu
+    image: harbor-sha.liuqi.me/library/dockerhub/milvusdb/milvus:v2.3.1-gpu
     command: ["milvus", "run", "standalone"]
     environment:
       ETCD_ENDPOINTS: etcd:2379
@@ -139,7 +139,7 @@ services:
 
   query:
     container_name: chain-server
-    image: chain-server:latest
+    image: harbor-sha.liuqi.me/library/rag/chain-server:v0.2.0-1
     build:
       context: ../../
       dockerfile: ./RetrievalAugmentedGeneration/Dockerfile
@@ -153,6 +153,10 @@ services:
       NVAPI_KEY: ${AI_PLAYGROUND_API_KEY}
     volumes:
       - ${APP_CONFIG_FILE}:${APP_CONFIG_FILE}
+      - /mnt/e5-large-v2/:/opt/RetrievalAugmentedGeneration/common/e5-large-v2
+      - /mnt/tokenizers:/tmp/llama_index/tokenizers
+      - /mnt/tokenizers:/root/nltk_data/tokenizers
+      - /mnt/taggers:/root/nltk_data/taggers
     ports:
     - "8081:8081"
     expose:
@@ -176,7 +180,7 @@ services:
 
   frontend:
     container_name: llm-playground
-    image: llm-playground:latest
+    image: harbor-sha.liuqi.me/library/rag/llm-playground:v0.2.0-1
     build:
       context: ../.././RetrievalAugmentedGeneration/frontend/
       dockerfile: Dockerfile

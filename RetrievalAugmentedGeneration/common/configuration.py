@@ -85,7 +85,7 @@ class EmbeddingConfig(ConfigWizard):
 
     model_name: str = configfield(
         "model_name",
-        default="intfloat/e5-large-v2",
+        default="/opt/RetrievalAugmentedGeneration/common/e5-large-v2",
         help_txt="The name of huggingface embedding model.",
     )
     model_engine: str = configfield(

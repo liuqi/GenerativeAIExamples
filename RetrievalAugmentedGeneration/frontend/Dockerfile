@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.11-slim
+FROM harbor-repo.vmware.com/dockerhub-proxy-cache/library/python:3.11-slim
 
 COPY frontend /app/frontend
 COPY requirements.txt /app
